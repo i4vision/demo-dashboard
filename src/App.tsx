@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { supabase } from './supabaseClient';
+import { supabase, hasSupabaseConfig } from './supabaseClient';
 
 // Type definitions for dynamic data from DB
 interface ClientData {
@@ -28,6 +28,10 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const handleGetClient = async () => {
+    if (!hasSupabaseConfig) {
+      alert('Missing Supabase variables! Please provide VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY as build arguments in your Portainer stack.');
+      return;
+    }
     setLoading(true);
     try {
       const { data: clients, error } = await supabase
@@ -55,6 +59,10 @@ function App() {
   };
 
   const handleClear = async () => {
+    if (!hasSupabaseConfig) {
+      setData(null);
+      return;
+    }
     setLoading(true);
     try {
       // Delete all records from the database
