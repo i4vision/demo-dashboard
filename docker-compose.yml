@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  demo-dashboard:
+    build:
+      context: .
+      args:
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+    image: demo-dashboard-web
+    container_name: demo-dashboard
+    ports:
+      - "4537:80"
+    restart: unless-stopped
+    # If deploying directly in Portainer without building, you can provide an image name above
+    # and comment out the `build` section.
