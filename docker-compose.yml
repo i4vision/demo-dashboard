@@ -7,7 +7,6 @@ services:
       args:
         - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
         - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
-    image: demo-dashboard-web
     container_name: demo-dashboard
     ports:
       - "4537:80"
