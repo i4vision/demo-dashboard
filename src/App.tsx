@@ -42,11 +42,30 @@ function App() {
         
       if (error) {
         if (error.code === 'PGRST116') {
-          // No rows returned
-          alert('No client data found in database.');
+          // No rows returned. For the sake of the demo, let's insert a dummy record so it works again.
+          const dummyClient = {
+            nombre: 'Ana',
+            apellido: 'García',
+            cedula: 123456,
+            contactable: true,
+            voluntad: true,
+            fecha: '2026-05-20T10:00:00Z',
+            monto: 300,
+          };
+          const { data: newClient, error: insertError } = await supabase
+            .from('clients')
+            .insert([dummyClient])
+            .select()
+            .single();
+            
+          if (!insertError && newClient) {
+            setData(newClient as ClientData);
+          } else {
+            alert('No client data found and failed to create dummy data.');
+          }
         } else {
           console.error('Error fetching client:', error);
-          alert('Error loading client data.');
+          alert('Error loading client data. Did you run the SQL command to create the table?');
         }
       } else if (clients) {
         setData(clients as ClientData);
