@@ -118,7 +118,8 @@
 
 .data-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 1.5rem;
   align-items: baseline;
   padding: 0.5rem 0;
   border-bottom: 1px dashed rgba(255,255,255,0.05);
@@ -139,6 +140,7 @@
   font-weight: 500;
   color: #cbd5e1;
   font-size: 0.95rem;
+  flex: 0 0 160px; /* Fixed width for consistent alignment */
 }
 
 .data-value {

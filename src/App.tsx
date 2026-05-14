@@ -49,7 +49,6 @@ function App() {
       } else if (!clients) {
         // No rows returned
         setData(null);
-        alert('No client data found in database. The hard values are displayed, but dynamic data remains empty.');
       } else {
         setData(clients as ClientData);
       }
