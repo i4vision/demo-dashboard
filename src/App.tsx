@@ -25,6 +25,7 @@ const HARD_VALUES = {
 
 function App() {
   const [data, setData] = useState<ClientData | null>(null);
+  const [clientRequested, setClientRequested] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleGetClient = async () => {
@@ -33,6 +34,8 @@ function App() {
       return;
     }
     setLoading(true);
+    setClientRequested(true);
+    
     try {
       const { data: clients, error } = await supabase
         .from('clients')
@@ -42,27 +45,9 @@ function App() {
         
       if (error) {
         if (error.code === 'PGRST116') {
-          // No rows returned. For the sake of the demo, let's insert a dummy record so it works again.
-          const dummyClient = {
-            nombre: 'Ana',
-            apellido: 'García',
-            cedula: 123456,
-            contactable: true,
-            voluntad: true,
-            fecha: '2026-05-20T10:00:00Z',
-            monto: 300,
-          };
-          const { data: newClient, error: insertError } = await supabase
-            .from('clients')
-            .insert([dummyClient])
-            .select()
-            .single();
-            
-          if (!insertError && newClient) {
-            setData(newClient as ClientData);
-          } else {
-            alert('No client data found and failed to create dummy data.');
-          }
+          // No rows returned
+          setData(null);
+          alert('No client data found in database.');
         } else {
           console.error('Error fetching client:', error);
           alert('Error loading client data. Did you run the SQL command to create the table?');
@@ -80,6 +65,7 @@ function App() {
   const handleClear = async () => {
     if (!hasSupabaseConfig) {
       setData(null);
+      setClientRequested(false);
       return;
     }
     setLoading(true);
@@ -96,6 +82,7 @@ function App() {
       
       // Clear GUI state
       setData(null);
+      setClientRequested(false);
     } catch (err) {
       console.error('Unexpected error:', err);
     } finally {
@@ -170,7 +157,7 @@ function App() {
             
             <div className="data-row">
               <span className="data-label">Entidad Bancaria</span>
-              <span className="data-value">{data ? HARD_VALUES.entidadBancaria : '-'}</span>
+              <span className="data-value">{clientRequested ? HARD_VALUES.entidadBancaria : '-'}</span>
             </div>
           </div>
         </div>
@@ -187,22 +174,22 @@ function App() {
             
             <div className="data-row">
               <span className="data-label">Estado</span>
-              <span className={`data-value ${data ? 'danger' : ''}`}>{data ? HARD_VALUES.estado : '-'}</span>
+              <span className={`data-value ${clientRequested ? 'danger' : ''}`}>{clientRequested ? HARD_VALUES.estado : '-'}</span>
             </div>
             
             <div className="data-row">
               <span className="data-label">Tipo de Deuda</span>
-              <span className="data-value">{data ? HARD_VALUES.tipoDeuda : '-'}</span>
+              <span className="data-value">{clientRequested ? HARD_VALUES.tipoDeuda : '-'}</span>
             </div>
             
             <div className="data-row">
               <span className="data-label">Monto de la Deuda</span>
-              <span className={`data-value ${data ? 'danger' : ''}`}>{data ? `U$ ${HARD_VALUES.montoDeuda}` : '-'}</span>
+              <span className={`data-value ${clientRequested ? 'danger' : ''}`}>{clientRequested ? `U$ ${HARD_VALUES.montoDeuda}` : '-'}</span>
             </div>
             
             <div className="data-row">
               <span className="data-label">Fecha de Mora</span>
-              <span className={`data-value ${data ? 'warning' : ''}`}>{data ? HARD_VALUES.fechaMora : '-'}</span>
+              <span className={`data-value ${clientRequested ? 'warning' : ''}`}>{clientRequested ? HARD_VALUES.fechaMora : '-'}</span>
             </div>
           </div>
 
