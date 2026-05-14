@@ -41,18 +41,16 @@ function App() {
         .from('clients')
         .select('*')
         .limit(1)
-        .single();
+        .maybeSingle();
         
       if (error) {
-        if (error.code === 'PGRST116') {
-          // No rows returned
-          setData(null);
-          alert('No client data found in database.');
-        } else {
-          console.error('Error fetching client:', error);
-          alert('Error loading client data. Did you run the SQL command to create the table?');
-        }
-      } else if (clients) {
+        console.error('Error fetching client:', error);
+        alert('Error loading client data. Did you run the SQL command to create the table?');
+      } else if (!clients) {
+        // No rows returned
+        setData(null);
+        alert('No client data found in database. The hard values are displayed, but dynamic data remains empty.');
+      } else {
         setData(clients as ClientData);
       }
     } catch (err) {
