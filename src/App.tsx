@@ -151,7 +151,7 @@ function App() {
             
             <div className="data-row">
               <span className="data-label">Entidad Bancaria</span>
-              <span className="data-value">{HARD_VALUES.entidadBancaria}</span>
+              <span className="data-value">{data ? HARD_VALUES.entidadBancaria : '-'}</span>
             </div>
           </div>
         </div>
@@ -168,22 +168,22 @@ function App() {
             
             <div className="data-row">
               <span className="data-label">Estado</span>
-              <span className="data-value danger">{HARD_VALUES.estado}</span>
+              <span className={`data-value ${data ? 'danger' : ''}`}>{data ? HARD_VALUES.estado : '-'}</span>
             </div>
             
             <div className="data-row">
               <span className="data-label">Tipo de Deuda</span>
-              <span className="data-value">{HARD_VALUES.tipoDeuda}</span>
+              <span className="data-value">{data ? HARD_VALUES.tipoDeuda : '-'}</span>
             </div>
             
             <div className="data-row">
               <span className="data-label">Monto de la Deuda</span>
-              <span className="data-value danger">U$ {HARD_VALUES.montoDeuda}</span>
+              <span className={`data-value ${data ? 'danger' : ''}`}>{data ? `U$ ${HARD_VALUES.montoDeuda}` : '-'}</span>
             </div>
             
             <div className="data-row">
               <span className="data-label">Fecha de Mora</span>
-              <span className="data-value warning">{HARD_VALUES.fechaMora}</span>
+              <span className={`data-value ${data ? 'warning' : ''}`}>{data ? HARD_VALUES.fechaMora : '-'}</span>
             </div>
           </div>
 
