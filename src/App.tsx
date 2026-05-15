@@ -96,7 +96,7 @@ function App() {
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1 className="dashboard-title">Demo Dashboard</h1>
+        <h1 className="dashboard-title">American Call Center Dashboard</h1>
         <div className="action-buttons">
           <button 
             className="btn btn-primary" 
